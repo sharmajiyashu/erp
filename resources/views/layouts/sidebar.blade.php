@@ -22,7 +22,16 @@
                 <ul class="menu-content">
                     <li><a class="d-flex align-items-center {{ Request::routeIs('employees.index') ? 'active' : '' }} " href="{{ route('employees.index') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Shop">List</span></a>
                     </li>
-                    <li><a class="d-flex align-items-center {{ Request::routeIs('employees.create') ? 'active' : '' }} " href=""><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Details">Add</span></a>
+                    <li><a class="d-flex align-items-center {{ Request::routeIs('employees.create') ? 'active' : '' }} " href="{{ route('employees.create') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Details">Add</span></a>
+                    </li>
+                </ul>
+            </li>
+
+            <li class=" nav-item {{ Request::routeIs('departments.index','departments.create') ? 'has-sub open' : '' }} "><a class="d-flex align-items-center" href=""><i data-feather="shopping-bag"></i><span class="menu-title text-truncate" data-i18n="Invoice">Department</span></a>
+                <ul class="menu-content">
+                    <li><a class="d-flex align-items-center {{ Request::routeIs('departments.index') ? 'active' : '' }} " href="{{ route('departments.index') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Shop">List</span></a>
+                    </li>
+                    <li><a class="d-flex align-items-center {{ Request::routeIs('departments.create') ? 'active' : '' }} " href="{{ route('departments.create') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Details">Add</span></a>
                     </li>
                 </ul>
             </li>
