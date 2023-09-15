@@ -24,12 +24,12 @@
                 <div class="content-header-left col-md-9 col-12 mb-2">
                     <div class="row breadcrumbs-top">
                         <div class="col-12">
-                            <h2 class="content-header-title float-start mb-0">Products</h2>
+                            <h2 class="content-header-title float-start mb-0">Employees</h2>
                             <div class="breadcrumb-wrapper">
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a href="{{url('/')}}">Home</a>
                                     </li>
-                                    <li class="breadcrumb-item"><a href="{{ route('products.index') }}">Products</a>
+                                    <li class="breadcrumb-item"><a href="{{ route('employees.index') }}">Employees</a>
                                     </li>
                                     <li class="breadcrumb-item active">List
                                     </li>
@@ -59,76 +59,30 @@
                         <div class="col-12">
                             <div class="card">
                                 {{-- <div class="card-header border-bottom"> --}}
-                                    <div class="row border-bottom" style="padding-top: 6px">
+                                    <div class="row " style="padding-top: 6px">
                                         <div class="col-md-9">
-                                            <h4 class="card-title">List</h4>
+                                            {{-- <h4 class="card-title">List</h4> --}}
                                         </div>
-                                        <div class="col-md-1">
-                                            <a href="#" class="btn btn-success btn-gradient " data-bs-toggle="modal" data-bs-target="#import-subscriber">Import</a>
-                                            <!-- Modal -->
-                                            <div class="modal fade modal-success text-start" id="import-subscriber" tabindex="-1" aria-labelledby="myModalLabel120" aria-hidden="true">
-                                                <div class="modal-dialog modal-dialog-centered">
-
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h5 class="modal-title" id="myModalLabel120">Import Products</h5>
-                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                <form action="{{route('products.import')}}" method="POST" enctype="multipart/form-data" >
-                                                                    @csrf
-                                                                <div class="mb-1">
-                                                                    <label for="">Choose File</label>
-                                                                    <input type="file" class="form-control" name="csv_file" required >
-                                                                </div>
-                                                            </div>
-
-
-                                                                <div class="modal-footer">
-                                                                    <button type="submit" class="btn btn-success" >Import</button>
-                                                                </div>
-                                                            </form>
-                                                        </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        <div class="col-md-1"></div>
                                         <div class="col-md-2">
-                                            <a href="{{route('products.create')}}" class=" btn btn-primary btn-gradient round  ">Add Product</a>
+                                            <a href="{{route('employees.create')}}" class=" btn btn-primary btn-gradient round  ">Add Product</a>
                                         </div>
                                     </div>
-                                    
-
-                                    
-
                                     
                                 {{-- </div> --}}
                                 <div class="card-datatable">
                                     <table class="datatables-ajax table table-responsive datatable_data">
 
-                                        <script>
-                                            function ChangeStatusActive (id){
-                                                $.ajax({
-                                                    url: "{{ route('products.change_status') }}",
-                                                    type: 'POST',
-                                                    dataType: 'json',
-                                                    data: {
-                                                        _token: "{{ csrf_token() }}",id:id
-                                                    },
-                                                    success: function(response){
-                                                        console.log(response[0]);
-                                                        if(response[0] == 1){
-                                                            toastr.success(response[1]);
-                                                        }else{
-                                                            toastr.error(response[1]);
-                                                        }
-                                                    }
-                                                });
-                                            }
-                                        </script>
+                                        
                                         <thead>
                                             <tr>
                                                 <th>Sr.no</th>
                                                 <th>Name</th>
+                                                <th>remark</th>
+                                                <th>Salary</th>
+                                                <th>per day salary</th>
+                                                <th>duty hour</th>
+                                                <th>transportation cost</th>
                                                 <th>status</th>
                                                 <th>Created Date</th>
                                                 <th>Action</th>
@@ -136,10 +90,15 @@
                                         </thead>
                                         <tbody>
                                             @php  $i=1; @endphp
-                                            @foreach($products as $key => $val)
+                                            @foreach($employees as $key => $val)
                                             <tr>
                                                 <th scope="row">{{ $i }}</th>
-                                                <td><strong>{{ $val->name }}</strong></td>
+                                                <td><strong>{{ $val->first_name }} {{ $val->last_name }}</strong></td>
+                                                <td>{{ $val->remark }}</td>
+                                                <td>{{ $val->monthly_salary }}</td>
+                                                <td>{{ $val->per_day_salary }}</td>
+                                                <td>{{ $val->duty_hour }}</td>
+                                                <td>{{ $val->transportation_cost }}</td>
                                                 <td><div class="form-check form-check-success form-switch">
                                                         <input class="form-check-input checked_chackbox" id="systemNotification" type="checkbox" name="is_default" onclick="ChangeStatusActive({{ $val->id }})" @if ($val->status == 1)
                                                             @checked(true) 
@@ -150,33 +109,34 @@
                                                 </td>
                                                 <td>{{ date('d-M-y H:i:s',strtotime($val->created_at)) }}</td>
                                                 <td>
-                                                    <a  href="{{route('products.edit',$val->id)}}">
-                                                        <button class="btn btn-info">Edit</button>
-                                                    </a>
+                                                    <div class="dropdown">
+                                                        <button type="button" class="btn btn-sm dropdown-toggle hide-arrow py-0" data-bs-toggle="dropdown">
+                                                            <i data-feather="more-vertical"></i>
+                                                        </button>
+                                                        <div class="dropdown-menu dropdown-menu-end">
+                                                            <a class="dropdown-item" href="{{route('employees.edit',$val->id)}}">
+                                                                <i data-feather="edit-2" class="me-50"></i>
+                                                                <span>Edit</span>
+                                                            </a>
+                                                            <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#danger_ke{{ $val->id }}">
+                                                                <i data-feather="trash" class="me-50"></i>
+                                                                <span>Delete</span>
+                                                            </a>
+                                                        </div>
+                                                    </div>
 
-                                                    <a href="#" class="text-danger" data-bs-toggle="modal" data-bs-target="#danger_ke{{ $val->id }}"><button class="btn btn-danger">Delete</button></a>
-
-                                                    <!-- Modal -->
                                                     <div class="modal fade modal-danger text-start" id="danger_ke{{ $val->id }}" tabindex="-1" aria-labelledby="myModalLabel120" aria-hidden="true">
                                                         <div class="modal-dialog modal-dialog-centered">
                                                             
                                                                 <div class="modal-content">
                                                                     <div class="modal-header">
-                                                                        <h5 class="modal-title" id="myModalLabel120">Delete Category</h5>
+                                                                        <h5 class="modal-title" id="myModalLabel120">Delete Employee</h5>
                                                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                                     </div>
                                                                     <div class="modal-body">
-
-                                                                        @if ($val->is_default == 1)
-                                                                            This is set on default, please set another to default  
-                                                                        @else
-                                                                            Are you sure you want to delete !
-                                                                        @endif 
-                                                                            
+                                                                        Are you sure you want to delete !
                                                                     </div>
-                                                                    @if ($val->is_default != 1)
-                                                                    <form action="{{route('products.destroy',$val->id)}}" method="POST">
-                                                                        @endif 
+                                                                    <form action="{{route('employees.destroy',$val->id)}}" method="POST">
                                                                         @csrf
                                                                         @method('delete')
                                                                         <div class="modal-footer">
@@ -192,6 +152,7 @@
                                             @endforeach
                                         </tbody>
                                     </table>
+                                    @include('_pagination', ['data' => $employees])
                                 </div>
                             </div>
                         </div>
@@ -207,5 +168,36 @@
     </div>
     <!-- END: Content-->
     <!-- END: Content-->
+
+    <script>
+        function ChangeStatusActive (id){
+            $.ajax({
+                url: "{{ route('employees.change_status') }}",
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    _token: "{{ csrf_token() }}",id:id
+                },
+                success: function(response){
+                    console.log(response[0]);
+                    if(response[0] == 1){
+                        Swal.fire({
+                            title: 'Success!',
+                            text: response[1],
+                            icon: 'success',
+                            confirmButtonText: 'OK'
+                        });
+                    }else{
+                        Swal.fire({
+                            title: 'Success!',
+                            text: response[1],
+                            icon: 'success',
+                            confirmButtonText: 'OK'
+                        });
+                    }
+                }
+            });
+        }
+    </script>
 
 @endsection

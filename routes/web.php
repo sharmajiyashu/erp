@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
 
@@ -19,6 +20,8 @@ Route::group(['middleware' => 'auth'], function () {
         return view('dashboard');
     })->name('dashboard');
 
+    Route::resource('employees',EmployeeController::class);
+    Route::post('employees.change_status',[EmployeeController::class,'changeStatus'])->name('employees.change_status');
     Route::get('logout',[LoginController::class,'logout'])->name('admin.logout');
 });
 

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Employee;
 use App\Http\Requests\StoreEmployeeRequest;
 use App\Http\Requests\UpdateEmployeeRequest;
+use Illuminate\Http\Request;
+
 
 class EmployeeController extends Controller
 {
@@ -13,9 +15,10 @@ class EmployeeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        //
+    public function index(Request $request){
+        $page = isset($request->page) ? $request->page : 1;
+        $employees = Employee::orderBy('id','desc')->paginate(10, ['*'], 'page', $page);
+        return view('employees.index', compact('employees'));
     }
 
     /**
@@ -25,7 +28,7 @@ class EmployeeController extends Controller
      */
     public function create()
     {
-        //
+        return view('employees.create');
     }
 
     /**
@@ -36,7 +39,9 @@ class EmployeeController extends Controller
      */
     public function store(StoreEmployeeRequest $request)
     {
-        //
+        $data = $request->validated();
+        Employee::create($data);
+        return redirect()->route('employees.index')->with('success','Employee create successfully');
     }
 
     /**
@@ -82,5 +87,16 @@ class EmployeeController extends Controller
     public function destroy(Employee $employee)
     {
         //
+    }
+
+    public function changeStatus(Request $request){
+        $payment_status = Employee::find($request->id);
+        if($payment_status->status == Employee::$active){
+            $payment_status->update(['status' => Employee::$inactive]);
+            return json_encode(['0' ,'Status Inactive Successfully']);
+        }else{
+            $payment_status->update(['status' => Employee::$active]);
+            return json_encode(['1' ,'Status Active Successfully']);
+        }
     }
 }
