@@ -3,6 +3,7 @@
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,6 +28,9 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::resource('departments',DepartmentController::class);
     Route::post('departments.change_status',[DepartmentController::class,'changeStatus'])->name('departments.change_status');
+
+    Route::resource('products',ProductController::class);
+    Route::post('products.change_status',[ProductController::class,'changeStatus'])->name('products.change_status');
 });
 
 Route::get('login',[LoginController::class,'index'])->name('login');

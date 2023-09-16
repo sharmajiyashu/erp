@@ -36,6 +36,15 @@
                 </ul>
             </li>
 
+            <li class=" nav-item {{ Request::routeIs('products.index','products.create') ? 'has-sub open' : '' }} "><a class="d-flex align-items-center" href=""><i data-feather="shopping-bag"></i><span class="menu-title text-truncate" data-i18n="Invoice">Product</span></a>
+                <ul class="menu-content">
+                    <li><a class="d-flex align-items-center {{ Request::routeIs('products.index') ? 'active' : '' }} " href="{{ route('products.index') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Shop">List</span></a>
+                    </li>
+                    <li><a class="d-flex align-items-center {{ Request::routeIs('products.create') ? 'active' : '' }} " href="{{ route('products.create') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Details">Add</span></a>
+                    </li>
+                </ul>
+            </li>
+
            
         
         </ul>

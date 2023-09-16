@@ -33,7 +33,10 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('public/admin/app-assets/css/core/menu/menu-types/vertical-menu.css')}}">
     <link rel="stylesheet" type="text/css" href="{{ asset('public/admin/app-assets/css/pages/dashboard-ecommerce.css')}}">
     <link rel="stylesheet" type="text/css" href="{{ asset('public/admin/app-assets/css/plugins/charts/chart-apex.css')}}">
-    
+
+
+    <link rel="stylesheet" type="text/css" href="{{ asset('public/admin/app-assets/vendors/css/forms/select/select2.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('public/admin/app-assets/css/components.css')}}">
     <!-- END: Page CSS-->
 
     <!-- BEGIN: Custom CSS-->

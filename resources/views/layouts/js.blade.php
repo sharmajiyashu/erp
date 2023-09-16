@@ -41,3 +41,7 @@
         });
     </script>
 @endif
+
+
+<script src="{{ asset('public/admin/app-assets/vendors/js/forms/select/select2.full.min.js')}}"></script>
+<script src="{{ asset('public/admin/app-assets/js/scripts/forms/form-select2.js')}}"></script>
