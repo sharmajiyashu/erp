@@ -78,6 +78,7 @@
                                             <tr>
                                                 <th>Sr.no</th>
                                                 <th>Name</th>
+                                                <th>department name</th>
                                                 <th>Description</th>
                                                 <th>status</th>
                                                 <th>Created Date</th>
@@ -90,6 +91,7 @@
                                             <tr>
                                                 <th scope="row">{{ $i }}</th>
                                                 <td><strong>{{ $val->name }} {{ $val->last_name }}</strong></td>
+                                                <td>{{ $val->department_name }}</td>
                                                 <td>{{ $val->desc }}</td>
                                                 <td><div class="form-check form-check-success form-switch">
                                                         <input class="form-check-input checked_chackbox" id="systemNotification" type="checkbox" name="is_default" onclick="ChangeStatusActive({{ $val->id }})" @if ($val->status == 1)

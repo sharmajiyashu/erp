@@ -18,7 +18,7 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         $page = isset($request->page) ? $request->page : 1;
-        $products = Product::orderBy('id','desc')->paginate(10, ['*'], 'page', $page);
+        $products = Product::join('departments','departments.id','=','products.department_id')->select('products.*','departments.name as department_name')->orderBy('id','desc')->paginate(10, ['*'], 'page', $page);
         return view('products.index', compact('products'));
     }
 

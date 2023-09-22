@@ -14,6 +14,12 @@
     } */
 </style>
 
+
+<script>
+
+    
+
+</script>
  <!-- BEGIN: Content-->
  <div class="app-content content ">
         <div class="content-overlay"></div>
@@ -88,7 +94,7 @@
                                             <div class="col-md-3 col-12">
                                                 <div class="mb-1">
                                                     <label class="form-label" for="first-name-column">Department  <span class="error">*</span></label>
-                                                    <select name="department_id" required id="department" class="select2 form-select">
+                                                    <select name="department_id" required id="department" class="select2 form-select" onchange="changeDepartment(this.value)">
                                                         <option value="">Select Department</option>
                                                         @foreach ($departments as $item)
                                                             <option value="{{ $item->id }}" {{ (old('department_id') == $item->id) ? 'selected' : '' }}>{{ $item->name }}</option>    
@@ -139,13 +145,119 @@
                                                 </div>
                                             </div>
 
-                                            <div class="col-md-12 col-12 mb-1">
-                                                
+                                            <div class="col-md-12 col-12 mb-1" id="targetDiv" >
+                                                <div class="col-md-6 row" >
+                                                    <div class="col-md-6 mb-1" >
+                                                        <label class="form-label" for="first-name-column">Product <span class="error">*</span></label>
+                                                        <select name="product_1" required id="product_id_1" class=" form-select products_option">
+                                                            <option value="">Select Products</option>
+                                                            @foreach ($products as $item)
+                                                                <option value="{{ $item->id }}" {{ (old('product_1') == $item->id) ? 'selected' : '' }}>{{ $item->name }}</option>    
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="col-md-6 mb-1" >
+                                                        <label class="form-label" for="first-name-column">Quantity <span class="error">*</span></label>
+                                                        <input type="number" name="quantity_1" class="form-control" placeholder="Quantity" required>
+                                                    </div>
+                                                </div>
                                             </div>
 
                                             <div class="col-md-12 col-12 mb-1">
-                                                <button>Add Product</button>
+                                                <a href="#" class=" btn-success" style="padding: 3px;" id="addButton" onclick="appendProduct()">+ Add Product</a>
+                                                <a href="#" class=" btn-danger" style="padding: 3px;" id="addButton" onclick="removeDiv()">- Remove</a>
                                             </div>
+
+                                            
+
+                                            <script>
+                                                let i= 1;
+                                                var products = @json($products);
+
+                                                function changeDepartment(id){
+                                                        products = @json($products);
+                                                        let selectElements = document.querySelectorAll('.products_option');
+
+                                                        selectElements.forEach(function (selectElement) {
+                                                            // Remove all existing options
+                                                            selectElement.innerHTML = '';
+                                                        });
+                                                        
+                                                        
+
+                                                        // Now, 'products' is a valid JavaScript array
+
+                                                        products = products.filter(function(product) {
+                                                            // Filter products based on your condition
+                                                            if(product.department_id == id){
+
+                                                                let optionToAppend = '<option value="' + product.id + '">' + product.name + '</option>';
+
+                                                                // Select all elements with the class 'products_option'
+                                                                let selectElements = document.querySelectorAll('.products_option');
+
+                                                                selectElements.forEach(function (selectElement) {
+                                                                    // Create a new option element from the HTML string
+                                                                    let optionElement = document.createElement('option');
+                                                                    optionElement.innerHTML = optionToAppend;
+
+                                                                    // Append the newly created option element to the select element
+                                                                    selectElement.appendChild(optionElement);
+                                                                });
+                                                                return product;
+                                                            }
+                                                            
+                                                        });
+
+                                                        console.log(products);
+                                                }
+
+
+                                                function appendProduct(){
+                                                    i++;
+                                                    var contentToAppend = `
+                                                        <div class="col-md-6 row" >
+                                                            <div class="col-md-6 mb-1" >
+                                                                <label class="form-label" for="first-name-column">Product ${i} <span class="error">*</span></label>
+                                                                <select name="product_${i}" required id="product_id_${i}" class="select2 form-select products_option">
+                                                                    
+                                                                </select>
+                                                            </div>
+
+                                                            <div class="col-md-6 mb-1" >
+                                                                <label class="form-label" for="first-name-column">Quantity <span class="error">*</span></label>
+                                                                <input type="number" name="quantity_1" class="form-control" placeholder="Quantity" required>
+                                                            </div>
+                                                        </div>
+                                                        `;
+                                                        $("#targetDiv").append(contentToAppend);
+
+                                                        products.forEach(function (product) {
+                                                            // Remove all existing options
+                                                            let optionToAppend = '<option value="' + product.id + '">' + product.name + '</option>';
+                                                            let selectElement = document.getElementById('product_id_'+i);
+
+                                                            // Create a new <option> element
+                                                            let optionElement = document.createElement('option');
+                                                            optionElement.value = product.id;
+                                                            optionElement.textContent = product.name;
+
+                                                            // Append the <option> element to the <select> element
+                                                            selectElement.appendChild(optionElement);
+
+
+                                                        });
+
+
+                                                }
+
+
+
+                                                
+                                            </script>
+
+                                            
 
                                             <div class="col-md-12 col-12">
                                                 <div class="mb-1">

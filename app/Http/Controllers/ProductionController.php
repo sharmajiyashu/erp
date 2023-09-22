@@ -7,6 +7,7 @@ use App\Http\Requests\StoreProductionRequest;
 use App\Http\Requests\UpdateProductionRequest;
 use App\Models\Department;
 use App\Models\Employee;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class ProductionController extends Controller
@@ -32,7 +33,8 @@ class ProductionController extends Controller
     {
         $employees = Employee::where('status',Employee::$active)->get();
         $departments = Department::where('status',Department::$active)->get();
-        return view('productions.create',compact('departments','employees'));
+        $products = Product::where('status',Product::$active)->get();
+        return view('productions.create',compact('departments','employees','products'));
     }
 
     /**
